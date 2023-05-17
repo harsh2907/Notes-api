@@ -11,12 +11,12 @@ export const getAllUsers = catchAsyncError(async (req, res) => {
     });
 });
 
-export const login = catchAsyncError(async (req, res) => { 
+export const login = catchAsyncError(async (req, res,next) => { 
 
     const {email, password } = req.body;
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user) return new ErrorHandler("Invalid email or password",404);
+    if (!user) next(new ErrorHandler("Invalid email or password",404));
 
     const isMatched = await bcrypt.compare(password,user.password);
 
