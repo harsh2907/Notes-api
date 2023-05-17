@@ -9,7 +9,7 @@ export const errorMiddleware = (err,req,res,next) =>{
     err.message = err.message || "Internal Server error"
     err.statusCode = err.statusCode || 500
 
-    return res.statusCode(err.statusCode).json({
+    return res.status(err.statusCode).json({
         success:false,
         message:err.message
     })
