@@ -32,7 +32,7 @@ export const register = catchAsyncError(async (req, res) => {
     const { name, email, password } = req.body;
     let user = await User.findOne({ email });
 
-    if (user) return new ErrorHandler("User already exists",404);
+    if (user) return next(new ErrorHandler("User already exists",404));
 
 
     const hashedPass = await bcrypt.hash(password, 10);

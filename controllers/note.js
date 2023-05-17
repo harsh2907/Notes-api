@@ -4,7 +4,6 @@ import { Note } from "../models/note.js";
 export const newNote = catchAsyncError(async (req,res)=>{
     const {title,content} = req.body;
 
-
     await Note.create({
         title,
         content,
@@ -34,7 +33,7 @@ export const updateNote = catchAsyncError( async (req,res)=>{
     const {id} = req.params;
     const note = await Note.findById(id);
 
-    if(!note) return new ErrorHandler("Note not found",404);
+    if(!note) return next(new ErrorHandler("Note not found",404));
 
 
     note.isCompleted = !note.isCompleted;
@@ -52,7 +51,7 @@ export const deleteNote = catchAsyncError(async (req,res)=>{
     const {id} = req.params;
     const note = await Note.findById(id);
 
-    if(!note) return new ErrorHandler("Note not found",404);
+    if(!note) return next(new ErrorHandler("Note not found",404));
 
     await note.deleteOne()
 
