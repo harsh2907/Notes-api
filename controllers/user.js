@@ -16,11 +16,11 @@ export const login = catchAsyncError(async (req, res,next) => {
     const {email, password } = req.body;
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user) next(new ErrorHandler("Invalid email or password",404));
+    if (!user) return next(new ErrorHandler("Invalid email or password",404));
 
     const isMatched = await bcrypt.compare(password,user.password);
 
-    if (!isMatched) return new ErrorHandler("Invalid email or password",404);
+    if (!isMatched) return next(new ErrorHandler("Invalid email or password",404));
 
 
     sendCookie(user, res, `Welcome back, ${user.name}`, 200);
