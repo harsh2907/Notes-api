@@ -1,18 +1,27 @@
 import { User } from "../models/user.js";
 import jwt from "jsonwebtoken";
+import ErrorHandler from "./error.js";
 
 export const isAuthenticated = async (req,res,next)=>{
 
-    const { token } = req.cookies;
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
 
     if(!token){
-        return res.status(404).json({
+        return res.status(401).json({
             success:false,
-            message:"Login first"
+            message:"Token Not Found or Invalid Token"
         });
     }
 
-    const decoded =  jwt.verify(token,process.env.JWT_SECRET);
-    req.user = await User.findById(decoded._id);
-    next();
+    jwt.verify(token,process.env.JWT_SECRET, async (err,user) =>{
+
+        if(err) return next(new ErrorHandler("Token Not Found",403));
+        
+        console.log(user)
+        req.user =  await User.findById(user._id);
+        next();
+
+    });
+
 }

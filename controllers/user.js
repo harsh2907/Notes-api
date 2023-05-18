@@ -22,8 +22,7 @@ export const login = catchAsyncError(async (req, res,next) => {
 
     if (!isMatched) return next(new ErrorHandler("Invalid email or password",404));
 
-
-    sendCookie(user, res, `Welcome back, ${user.name}`, 200);
+    sendCookie(user, res, 200);
 
 });
 
@@ -43,7 +42,7 @@ export const register = catchAsyncError(async (req, res) => {
         password: hashedPass
     });
 
-    sendCookie(user, res, "Registered successfully", 201);
+    sendCookie(user, res, 201);
 });
 
 export const logout = catchAsyncError(async (req, res) => {
