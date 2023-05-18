@@ -9,9 +9,9 @@ const noteSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    isCompleted: {
-        type:Boolean,
-        default:false
+    color: {
+        type:mongoose.Schema.Types.Number,
+        default:-1
     },
     createdBy:{
         type:mongoose.Schema.Types.ObjectId,

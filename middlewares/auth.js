@@ -18,7 +18,6 @@ export const isAuthenticated = async (req,res,next)=>{
 
         if(err) return next(new ErrorHandler("Token Not Found",403));
         
-        console.log(user)
         req.user =  await User.findById(user._id);
         next();
 
